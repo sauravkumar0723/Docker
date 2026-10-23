@@ -1,0 +1,86 @@
+1. First way:-> Go to Docker
+           |
+         Images
+           |
+         Search
+           |
+         MySQL
+           |
+         After pull wait => some time
+           |
+          After some i want to delete
+           |
+          First delete container 
+           |
+          Then Images
+
+==> this is a one way
+
+******** most of the time using command to do it.***************************
+-> we use commands to get the image.
+-> we use commands to run the container
+...so on.
+
+==> open your terminal
+Step1:->  first verify docker version
+              |
+step2:-> give the command:-> Docker run hello-world
+             |
+             |
+ C:\Users\Saurav Kumar>docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+4f55086f7dd0: Pull complete
+d5e71e642bf5: Download complete
+Digest: sha256:11a3eb1597e864c51b3f56733cb2e8a90bf0c284bfc05f9444d81c558bc848aa
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+
+Note:-> once pull is complete --> i will get a ID for basic for your image.
+
+Step3:-> How to verify the image
+
+Q(i) If i want to know which container running?
+Ans-> docker ps
+
+   ==>   C:\Users\Saurav Kumar>docker ps
+             CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+(II) show me all
+     docker ps -a
+   ==>    C:\Users\Saurav Kumar>docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                     PORTS     NAMES
+5f7a95eb876798   hello-world   "/hello"   30 minutes ago   Exited (0) 5 minutes ago             upbeat_clarke
+
+(III) How to see images
+     |
+  Docker images 
+      |--> every images has id
+  ==>   :\Users\Saurav Kumar>docker images
+                                                                                                         i Info →   U  In Use
+                 IMAGE                ID             DISK USAGE   CONTENT SIZE   EXTRA
+                 hello-world:latest   11a3eb1597e8       25.9kB         9.49kB    U
+
+(IV) How to delete
+
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
