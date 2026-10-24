@@ -1,0 +1,98 @@
+## Docker_Architecture:-
+
+   Definition
+
+Docker architecture follows a client-server architecture in which the Docker Client communicates with the Docker Daemon to build, download, and run containers.
+
+Components of Docker Architecture
+
+1. Docker Client
+
+The interface through which users interact with Docker.
+
+Sends commands to the Docker Daemon through the REST API.
+
+Example: docker run nginx
+
+2. Docker Daemon (dockerd)
+
+A background service responsible for managing Docker objects.
+
+Builds images and manages containers, networks, and volumes.
+
+Example: Creates and starts an Nginx container.
+
+3. Docker Images
+
+Read-only templates used to create Docker containers.
+
+Contain application code, dependencies, libraries, and configuration.
+
+Example: nginx:latest
+
+4. Docker Containers
+
+Instances of Docker images that run applications in isolated environments.
+
+Containers can be started, stopped, and deleted.
+
+Example: A running Nginx web server.
+
+5. Docker Registry
+
+A service used to store, distribute, and share Docker images.
+
+Docker Hub is a popular public Docker registry.
+
+Example: docker pull nginx
+
+6. Docker Networks
+
+Allow containers to communicate with each other and with external networks.
+
+Example: A Spring Boot container communicating with a MySQL container.
+
+7. Docker Volumes
+
+Used to store persistent data outside a container's writable layer.
+
+Data can remain available even when a container is removed.
+
+Example: Storing MySQL database files in a Docker volume.
+
+Working of Docker Architecture
+
+The user executes a Docker command through the Docker Client.
+
+The client sends the request to the Docker Daemon using the REST API.
+
+The daemon checks whether the required image is available locally.
+
+If the image is unavailable, Docker can download it from a registry such as Docker Hub.
+
+The daemon creates and starts a container from the image.
+
+The application runs inside the container.
+
+Example
+
+docker pull nginx
+docker run -d -p 8080:80 nginx
+
+docker pull nginx downloads the Nginx image.
+
+docker run creates and starts a container.
+
+-d runs the container in the background.
+
+-p 8080:80 maps host port 8080 to container port 80.
+
+Open http://localhost:8080 to access the Nginx web server.
+
+Architecture Flow
+
+Docker Client → REST API → Docker Daemon → Docker Image → Docker Container
+
+Docker Registry: Supplies images when required.
+
+Key Point: The Docker Client sends commands, the Docker Daemon performs the operations, images provide the templates, containers run applications, and the registry stores and distributes images.
