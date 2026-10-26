@@ -1,0 +1,79 @@
+# Running Multiple Containers in Docker
+
+## Definition
+Running multiple containers means running two or more Docker containers simultaneously to execute different services of an application.
+
+## Example
+A Spring Boot application uses two containers:
+- **App Container:** Runs the Spring Boot application.
+- **Database Container:** Runs PostgreSQL.
+
+Both containers communicate through a Docker network.
+
+## Using Docker Compose
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "8082:8081"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: navin
+      POSTGRES_PASSWORD: "Saurav123"
+      POSTGRES_DB: telusko
+    ports:
+      - "5433:5432"
+```
+
+## Commands
+
+1. Start multiple containers**
+```bash
+docker compose up
+```
+
+2. Build and start containers**
+```bash
+docker compose up --build
+```
+
+3. Run containers in the background**
+```bash
+docker compose up -d
+```
+
+4. List running containers**
+```bash
+docker compose ps
+```
+
+5. View logs**
+```bash
+docker compose logs
+```
+
+6. Stop and remove containers**
+```bash
+docker compose down
+```
+
+## How Containers Communicate
+
+- Docker Compose creates a network for the services by default.
+- Containers communicate using the **service name** as the hostname.
+- Spring Boot connects to PostgreSQL using:
+
+```properties
+jdbc:postgresql://postgres:5432/telusko
+```
+
+Here, `postgres` is the service name, and `5432` is the PostgreSQL port inside its container.
+
+## Interview Answer
+Running multiple containers in Docker allows different application components, such as a Spring Boot application and a PostgreSQL database, to run independently and communicate through a Docker network. Docker Compose simplifies managing these containers together.
