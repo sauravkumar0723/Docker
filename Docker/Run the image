@@ -1,0 +1,27 @@
+# 
+
+Check Docker image
+-> docker images
+
+Get JDK / Create container
+docker run -dit --name bold_kilby openjdk:22-jdk
+
+
+2. Copy JAR into container
+docker cp target/rest-demo.jar bold_kilby:/tmp/rest-demo.jar
+
+--> docker commit bold_kilby teleusko/rest-demo:v2
+    -> we don't want default command . i want to change 
+
+3. Create Docker image
+docker commit --change="CMD [\"java\",\"-jar\",\"/tmp/rest-demo.jar\"]" bold_kilby telusko/rest-demo:v2
+
+
+4. Run the image
+docker run -p 8080:8080 telusko/rest-demo:v2
+
+5. Docker file for Docker images:-
+docker build -t teleusko/rest-demo:v3 .
+          |
+          |
+ docker run -p 8080:8080 teleusko/restdemo-v3
