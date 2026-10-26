@@ -1,0 +1,88 @@
+# Docker Volume
+
+## 1. Definition
+
+A Docker Volume is a mechanism used to store data outside a container's writable layer, allowing data to persist even when the container is stopped, removed, or recreated.
+
+## 2. Why Docker Volume?
+
+- Persists data beyond a container's lifecycle.
+- Prevents database data loss when containers are recreated.
+- Allows data sharing between containers.
+- Separates application data from container storage.
+
+## 3. Types of Storage in Docker
+
+| Type           | Description                                                                            |
+|---             |  ---                                                                                   |
+|  Volume        | Managed by Docker and stored separately from the container.                            |
+|  Bind Mount    | Maps a specific host file or directory into a container.                               |
+|  tmpfs Mount   | Stores temporary data in host memory; data does not persist after the container stops. |
+
+## 4. Docker Volume Commands
+
+| Command | Purpose |
+|---|---|
+| `docker volume create my-volume` | Creates a volume. |
+| `docker volume ls` | Lists all volumes. |
+| `docker volume inspect my-volume` | Shows volume details. |
+| `docker volume rm my-volume` | Removes a volume. |
+| `docker volume prune` | Removes unused volumes. |
+
+## 5. Example: Using a Volume
+
+### Create a Volume
+
+```bash
+docker volume create my-volume
+```
+
+### Run a Container with a Volume
+
+```bash
+docker run -d --name my-container -v my-volume:/data nginx
+```
+
+Here:
+- `my-volume` is the Docker volume.
+- `/data` is the mount path inside the container.
+- Data stored in `/data` persists when the container is removed.
+
+## 6. Docker Volume in Docker Compose
+
+```yaml
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: telusko
+      POSTGRES_USER: navin
+      POSTGRES_PASSWORD: "Saurav123"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+```
+
+**Explanation:**
+- `postgres-data` is a named volume.
+- `/var/lib/postgresql/data` is PostgreSQL's data directory in the container.
+- Docker manages the volume and retains its data when the container is recreated.
+
+## 7. Docker Volume vs Container Storage
+
+| Container Storage | Docker Volume |
+|---|---|
+| Tied to the container's writable layer. | Managed separately by Docker. |
+| Data is lost when the container is removed. | Data normally remains after container removal. |
+| Not ideal for persistent database data. | Suitable for persistent database data. |
+
+## 8. Important Points
+
+- Removing a container does not normally remove its named volumes.
+- `docker compose down` preserves named volumes by default.
+- `docker compose down -v` removes Compose-managed named volumes and may delete database data.
+- Volumes are useful for PostgreSQL, MySQL, and other stateful applications.
+
+
