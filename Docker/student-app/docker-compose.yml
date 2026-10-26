@@ -1,0 +1,34 @@
+
+services:
+  app:
+    build: .
+    ports:
+      - "8082:8081"
+    networks:
+      - my-networks
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/telusko
+      SPRING_DATASOURCE_USERNAME: navin
+      SPRING_DATASOURCE_PASSWORD: "Saurav123"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: navin
+      POSTGRES_PASSWORD: "Saurav123"
+      POSTGRES_DB: telusko
+    ports:
+      - "5433:5432"
+    networks:
+      - my-networks
+    volumes:
+      - postgres-s-data:/var/lib/postgresql/data
+
+networks:
+  my-networks:
+    driver: bridge
+
+volumes:
+  postgres-s-data:

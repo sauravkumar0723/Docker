@@ -1,0 +1,4 @@
+com\learning\student_app\controller\StudentController.class
+com\learning\student_app\controller\Student.class
+com\learning\student_app\StudentAppApplication.class
+com\learning\student_app\studentRepo\StudentRepo.class
