@@ -1,0 +1,137 @@
+# Docker Compose
+
+## 1. Definition
+
+Docker Compose is a tool used to define and run multi-container Docker applications using a YAML configuration file (`docker-compose.yml`).
+
+## 2. Why Docker Compose?
+
+- Runs multiple containers together.
+- Configures networks and volumes.
+- Manages container dependencies.
+- Starts the application using a single command.
+
+## 3. Important Components
+
+| Component | Description |
+|---|---|
+| **Services** | Define containers, such as an application and a database. |
+| **Networks** | Enable communication between containers. |
+| **Volumes** | Persist data when containers are recreated. |
+| **Ports** | Map host ports to container ports. |
+| **Environment** | Configure application variables. |
+
+## 4. Example: `docker-compose.yml`
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "8082:8081"
+    depends_on:
+      - postgres
+    networks:
+      - my-network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: navin
+      POSTGRES_PASSWORD: "Saurav123"
+      POSTGRES_DB: telusko
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+```
+
+### Explanation
+
+- `build: .` — Builds the application image using the Dockerfile in the current directory.
+- `ports: "8082:8081"` — Maps host port `8082` to container port `8081`.
+- `depends_on` — Defines the service startup order; it does not guarantee database readiness.
+- `image: postgres:latest` — Uses the PostgreSQL image.
+- `environment` — Configures database credentials and name.
+- `volumes` — Persists PostgreSQL data.
+- `networks` — Connects services to a shared network.
+- `driver: bridge` — Creates a bridge network for container communication.
+
+## 5. Important Commands
+
+| Command | Purpose |
+|---|---|
+| `docker compose up` | Starts services. |
+| `docker compose up -d` | Starts services in the background. |
+| `docker compose up --build` | Builds images and starts services. |
+| `docker compose down` | Stops and removes containers and the Compose network. |
+| `docker compose ps` | Displays service status. |
+| `docker compose logs` | Displays service logs. |
+| `docker compose logs -f` | Follows live logs. |
+| `docker compose exec postgres bash` | Opens a Bash shell inside the PostgreSQL container, if available. |
+| `docker compose config` | Validates and displays the resolved Compose configuration. |
+
+**Note:** `docker compose down` does not remove named volumes by default. Avoid `docker compose down -v` unless you intend to delete the associated volumes.
+
+## 6. How Docker Compose Works
+
+1. Create a `docker-compose.yml` file.
+2. Define application and database services.
+3. Docker Compose creates the required containers and network.
+4. Containers communicate using service names.
+5. Volumes preserve
+
+
+
+***********************=====================*************************
+## Application Build Requirement in Docker Compose
+
+Before running a Spring Boot application inside Docker, the application must be packaged into a JAR file.
+
+### 1. Build the Application
+
+```bash
+mvn clean package -DskipTests
+```
+
+- `mvn clean` — Removes previous build files.
+- `mvn package` — Compiles the code and packages it into a JAR file.
+- `-DskipTests` — Skips test execution.
+
+**Output:** The JAR file is generated inside the `target/` directory.
+
+### 2. Dockerfile
+
+```dockerfile
+FROM eclipse-temurin:21-jdk
+WORKDIR /app
+COPY target/student-app.jar student-app.jar
+ENTRYPOINT ["java", "-jar", "student-app.jar"]
+```
+
+- `FROM` — Specifies the Java base image.
+- `WORKDIR` — Sets the working directory inside the container.
+- `COPY` — Copies the JAR file into the image.
+- `ENTRYPOINT` — Runs the Spring Boot application.
+
+### 3. Run with Docker Compose
+
+```bash
+docker compose up --build
+```
+
+Docker builds the image and starts the application container.
+
+### Important Points
+
+- Build the JAR before building the Docker image when using the above Dockerfile.
+- The JAR filename must match the filename specified in `COPY`.
+- The Docker build context must include the `target/` directory.
+- `-DskipTests` skips tests; it does not skip compilation or packaging.
